@@ -1,6 +1,82 @@
 <Project>
 
   <PropertyGroup>
+    <!-- opt-out properties -->
+    <UsingToolXUnit>false</UsingToolXUnit>
+
+    <!-- opt-in properties -->
+    <UsingToolNetFrameworkReferenceAssemblies>true</UsingToolNetFrameworkReferenceAssemblies>
+    <UsingToolSymbolUploader>true</UsingToolSymbolUploader>
+    <UsingToolVSSDK>true</UsingToolVSSDK>
+    <UsingToolSourceLink>true</UsingToolSourceLink>
+  </PropertyGroup>
+
+  <!-- Version number computation -->
+  <PropertyGroup>
+    <!-- Put build number 0 and today's date if this was a local build -->
+    <BUILD_BUILDNUMBER Condition="'$(BUILD_BUILDNUMBER)' == ''">$([System.DateTime]::Now.ToString(yyyyMMdd.0))</BUILD_BUILDNUMBER>
+    <!-- Remove '.DRAFT' suffix if it exists -->
+    <BUILD_BUILDNUMBER>$(BUILD_BUILDNUMBER.Replace(".DRAFT", ""))</BUILD_BUILDNUMBER>
+
+    <!--
+    Given $(BUILD_BUILDNUMBER) = '20161225.1'
+
+    Then $(_Build_Year) = 2016
+    Then $(_Build_Month) = 12
+    Then $(_Build_Day) = 25
+    Then $(_Build_Number) = 1
+    Then $(Build_FileVersion) = 2016.12.25.1
+    -->
+    <_Build_Year>$(BUILD_BUILDNUMBER.Substring(0, 4))</_Build_Year>
+    <_Build_Month>$(BUILD_BUILDNUMBER.Substring(4, 2))</_Build_Month>
+    <_Build_Day>$(BUILD_BUILDNUMBER.Substring(6, 2))</_Build_Day>
+    <_Build_Number>$(BUILD_BUILDNUMBER.Substring(9))</_Build_Number>
+    <Build_FileVersion>$(_Build_Year).$(_Build_Month).$(_Build_Day).$(_Build_Number)</Build_FileVersion>
+
+    <FSCoreMajorVersion>4.5</FSCoreMajorVersion>
+    <FSCorePackageVersion>$(FSCoreMajorVersion).3</FSCorePackageVersion>
+    <FSCoreVersion>$(FSCoreMajorVersion).0.0</FSCoreVersion>
+
+    <FSPackageMajorVersion>10.2</FSPackageMajorVersion>
+    <FSPackageVersion>$(FSPackageMajorVersion).3</FSPackageVersion>
+    <FSProductVersion>$(FSPackageVersion).0</FSProductVersion>
+
+    <VSMajorVersion>15</VSMajorVersion>
+    <VSMinorVersion>8</VSMinorVersion>
+    <VSGeneralVersion>$(VSMajorVersion).0</VSGeneralVersion>
+    <VSAssemblyVersion>$(VSMajorVersion).$(VSMinorVersion).0.0</VSAssemblyVersion>
+
+    <!--
+
+    Given $(BUILD_BUILDNUMBER) = '20161225.1'
+    Given $(VSAssemblyVersion) = '15.4.0.0'
+
+    Then $(BuildTimeStamp_Date) = 161225
+    Then $(BuildTimeStamp_Number) = 01
+    Then $(BuildTimeStamp) = 16122501
+    Then $(VsixPackageVersion) = 15.4.20161225.1
+    Then $(NuGetPackageVersionSuffix) = 161225-01
+
+    -->
+    <BuildTimeStamp_Date>$(BUILD_BUILDNUMBER.Split('.')[0].Substring(2))</BuildTimeStamp_Date>
+    <BuildTimeStamp_Number>$(BUILD_BUILDNUMBER.Split('.')[1].PadLeft(2, '0'))</BuildTimeStamp_Number>
+    <BuildTimeStamp>$(BuildTimeStamp_Date)$(BuildTimeStamp_Number)</BuildTimeStamp>
+    <VsixPackageVersion Condition="'$(CI)' != ''">$(VSAssemblyVersion.Split('.')[0]).$(VSAssemblyVersion.Split('.')[1]).$(BUILD_BUILDNUMBER)</VsixPackageVersion>
+    <VsixPackageVersion Condition="'$(CI)' == ''">42.42.42.42</VsixPackageVersion>
+    <NuGetPackageVersionSuffix>$(BuildTimeStamp_Date)-$(BuildTimeStamp_Number)</NuGetPackageVersionSuffix>
+  </PropertyGroup>
+
+  <!-- version number assignment -->
+  <PropertyGroup>
+    <VersionPrefix>$(FSCoreVersion)</VersionPrefix>
+    <VersionPrefix Condition="'$(UseFSharpProductVersion)' == 'true'">$(FSProductVersion)</VersionPrefix>
+    <VersionPrefix Condition="'$(UseVsMicroBuildAssemblyVersion)' == 'true'">$(VSAssemblyVersion)</VersionPrefix>
+  </PropertyGroup>
+
+  <Target Name="GetVsixPackageVersion" Outputs="$(VsixPackageVersion)">
+  </Target>
+
+  <PropertyGroup>
 
     <!-- default package sources -->
     <RestoreSources>
@@ -20,7 +96,7 @@
     <DotNetPackageVersionPropsPath>$(MSBuildThisFileDirectory)..\..\artifacts\dependencyUptake\PackageVersions.props</DotNetPackageVersionPropsPath>
 
     <!-- version numbers from files -->
-    <RoslynPackageVersion>$([System.IO.File]::ReadAllText('$(MSBuildThisFileDirectory)..\..\RoslynPackageVersion.txt').Trim())</RoslynPackageVersion>
+    <RoslynPackageVersion>$([System.IO.File]::ReadAllText('$(MSBuildThisFileDirectory)..\RoslynPackageVersion.txt').Trim())</RoslynPackageVersion>
 
     <!-- System.* packages -->
     <SystemCollectionsImmutablePackageVersion>1.5.0</SystemCollectionsImmutablePackageVersion>
@@ -72,9 +148,9 @@
     <MicrosoftVisualStudioDesignerInterfacesPackageVersion>1.1.4322</MicrosoftVisualStudioDesignerInterfacesPackageVersion>
     <MicrosoftVisualStudioEditorPackageVersion>15.0.26201</MicrosoftVisualStudioEditorPackageVersion>
     <MicrosoftVisualStudioImagingPackageVersion>15.0.26201</MicrosoftVisualStudioImagingPackageVersion>
-    <MicrosoftVisualStudioLanguageStandardClassificationPackageVersion>15.6.27740</MicrosoftVisualStudioLanguageStandardClassificationPackageVersion>
+    <MicrosoftVisualStudioLanguageStandardClassificationPackageVersion>15.8.414-preview</MicrosoftVisualStudioLanguageStandardClassificationPackageVersion>
     <MicrosoftVisualStudioLanguagePackageVersion>15.6.27740</MicrosoftVisualStudioLanguagePackageVersion>
-    <MicrosoftVisualStudioLanguageIntellisensePackageVersion>15.6.27740</MicrosoftVisualStudioLanguageIntellisensePackageVersion>
+    <MicrosoftVisualStudioLanguageIntellisensePackageVersion>15.8.414-preview</MicrosoftVisualStudioLanguageIntellisensePackageVersion>
     <MicrosoftVisualStudioManagedInterfacesPackageVersion>8.0.50727</MicrosoftVisualStudioManagedInterfacesPackageVersion>
     <MicrosoftVisualStudioOLEInteropPackageVersion>7.10.6071</MicrosoftVisualStudioOLEInteropPackageVersion>
     <MicrosoftVisualStudioPackageLanguageService150PackageVersion>15.0.26201</MicrosoftVisualStudioPackageLanguageService150PackageVersion>
@@ -132,9 +208,9 @@
     <NUnitPackageVersion>3.10.1</NUnitPackageVersion>
     <NUnit3TestAdapterPackageVersion>3.10.0</NUnit3TestAdapterPackageVersion>
     <NUnitLitePackageVersion>3.10.1</NUnitLitePackageVersion>
+    <NunitXmlTestLoggerPackageVersion>2.1.36</NunitXmlTestLoggerPackageVersion>
     <RoslynToolsSignToolPackageVersion>1.0.0-beta2-dev3</RoslynToolsSignToolPackageVersion>
     <StrawberryPerl64PackageVersion>5.22.2.1</StrawberryPerl64PackageVersion>
-    <XliffTasksPackageVersion>0.2.0-beta-000081</XliffTasksPackageVersion>
 
   </PropertyGroup>
 

@@ -59,15 +59,15 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XmlDocAttributeWithNullComm
 EndProject
 Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "FSharp.Build", "src\fsharp\FSharp.Build\FSharp.Build.fsproj", "{702A7979-BCF9-4C41-853E-3ADFC9897890}"
 EndProject
-Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Fsc", "src\fsharp\Fsc\Fsc.fsproj", "{C94C257C-3C0A-4858-B5D8-D746498D1F08}"
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "fsc", "src\fsharp\fsc\fsc.fsproj", "{C94C257C-3C0A-4858-B5D8-D746498D1F08}"
 EndProject
 Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "FSharp.Compiler.Interactive.Settings", "src\fsharp\FSharp.Compiler.Interactive.Settings\FSharp.Compiler.Interactive.Settings.fsproj", "{649FA588-F02E-457C-9FCF-87E46407481E}"
 EndProject
-Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "FsiAnyCPU", "src\fsharp\fsiAnyCpu\FsiAnyCPU.fsproj", "{8B3E283D-B5FE-4055-9D80-7E3A32F3967B}"
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "fsiAnyCPU", "src\fsharp\fsiAnyCpu\fsiAnyCPU.fsproj", "{8B3E283D-B5FE-4055-9D80-7E3A32F3967B}"
 EndProject
-Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Fsi", "src\fsharp\fsi\Fsi.fsproj", "{D0E98C0D-490B-4C61-9329-0862F6E87645}"
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "fsi", "src\fsharp\fsi\fsi.fsproj", "{D0E98C0D-490B-4C61-9329-0862F6E87645}"
 EndProject
-Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "FSharp.Tests.FSharpSuite", "tests\fsharp\FSharp.Tests.FSharpSuite.fsproj", "{C163E892-5BF7-4B59-AA99-B0E8079C67C4}"
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "FSharpSuite.Tests", "tests\fsharp\FSharpSuite.Tests.fsproj", "{C163E892-5BF7-4B59-AA99-B0E8079C67C4}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "VisualFSharp.UnitTests Support", "VisualFSharp.UnitTests Support", "{3F044931-FB83-4433-B934-AE66AB27B278}"
 EndProject
@@ -134,7 +134,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FSharp.PatternMatcher", "vs
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Legacy", "Legacy", "{CCAB6E50-34C6-42AF-A6B0-567C29FCD91B}"
 EndProject
-Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "GetTypesVSUnitTests", "vsintegration\tests\GetTypesVSUnitTests\GetTypesVSUnitTests.fsproj", "{6D93CEBD-4540-4D96-A153-B440A661FD09}"
+Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "GetTypesVS.UnitTests", "vsintegration\tests\GetTypesVS.UnitTests\GetTypesVS.UnitTests.fsproj", "{6D93CEBD-4540-4D96-A153-B440A661FD09}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

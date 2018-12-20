@@ -7,6 +7,7 @@
     <OutputType>Library</OutputType>
     <ExtensionInstallationFolder>Microsoft\FSharpTemplates</ExtensionInstallationFolder>
     <DeployExtension>true</DeployExtension>
+    <VisualStudioInsertionComponent>Microsoft.FSharp.VSIX.Templates</VisualStudioInsertionComponent>
   </PropertyGroup>
 
   <ItemGroup>

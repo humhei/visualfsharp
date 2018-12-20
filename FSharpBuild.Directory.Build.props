@@ -1,24 +1,24 @@
 <Project>
 
-  <Import Project="build\targets\AssemblyVersions.props" />
+  <!-- <Import Project="build\targets\AssemblyVersions.props" />
   <Import Project="build\targets\PackageVersions.props" />
   <Import Project="build\targets\GitHash.props" />
-  <Import Project="build\targets\CommonPackages.targets" />
+  <Import Project="build\targets\CommonPackages.targets" /> -->
 
   <!-- directory locations -->
   <PropertyGroup>
-    <Configuration Condition="'$(Configuration)' == ''">Debug</Configuration>
-    <RepoRoot>$(MSBuildThisFileDirectory)</RepoRoot>
+    <!-- <Configuration Condition="'$(Configuration)' == ''">Debug</Configuration> -->
+    <!-- <RepoRoot>$(MSBuildThisFileDirectory)</RepoRoot> -->
     <FSharpSourcesRoot>$(RepoRoot)src</FSharpSourcesRoot>
-    <ArtifactsDir>$(RepoRoot)artifacts</ArtifactsDir>
+    <!-- <ArtifactsDir>$(RepoRoot)artifacts</ArtifactsDir>
     <ToolsRoot>$(ArtifactsDir)\toolset</ToolsRoot>
     <ArtifactsBinDir>$(ArtifactsDir)\bin</ArtifactsBinDir>
     <ArtifactsObjDir>$(ArtifactsDir)\obj</ArtifactsObjDir>
     <ArtifactsPackagesDir>$(ArtifactsDir)\packages</ArtifactsPackagesDir>
     <BaseOutputPath>$(ArtifactsBinDir)\$(MSBuildProjectName)</BaseOutputPath>
-    <BaseIntermediateOutputPath>$(ArtifactsObjDir)\$(MSBuildProjectName)</BaseIntermediateOutputPath>
+    <BaseIntermediateOutputPath>$(ArtifactsObjDir)\$(MSBuildProjectName)</BaseIntermediateOutputPath> -->
     <SymStoreDirectory>$(ArtifactsDir)\SymStore</SymStoreDirectory>
-    <ProtoOutputPath Condition="'$(OS)' != 'Unix'">$(ArtifactsBinDir)\fsc\Proto\net46</ProtoOutputPath>
+    <ProtoOutputPath Condition="'$(OS)' != 'Unix'">$(ArtifactsBinDir)\Bootstrap</ProtoOutputPath>
     <ProtoOutputPath Condition="'$(OS)' == 'Unix'">$(ArtifactsBinDir)/fsc/Proto/netcoreapp2.1</ProtoOutputPath>
     <ValueTupleImplicitPackageVersion>4.4.0</ValueTupleImplicitPackageVersion>
   </PropertyGroup>
@@ -65,7 +65,9 @@
 
   <!-- other -->
   <PropertyGroup>
-    <DebugType>portable</DebugType>
+    <NoWarn Condition="'$(Language)' == 'F#'">$(NoWarn);FS2003</NoWarn><!-- warning when AssemblyInformationalVersion looks like '1.2.3-dev' -->
+    <NoCompilerStandardLib>true</NoCompilerStandardLib><!-- necessary for resource generation using csc.exe -->
+    <!-- <DebugType>portable</DebugType> -->
     <MicroBuildAssemblyFileLanguage>fs</MicroBuildAssemblyFileLanguage>
     <UseStandardResourceNames>false</UseStandardResourceNames>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
